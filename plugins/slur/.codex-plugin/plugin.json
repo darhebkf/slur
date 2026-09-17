@@ -1,0 +1,25 @@
+{
+  "name": "slur",
+  "version": "0.1.0",
+  "description": "Emit fast, local, user-configurable roasts for misbehaving AI agents.",
+  "author": {
+    "name": "Slur contributors"
+  },
+  "license": "MIT",
+  "keywords": ["agents", "developer-tools", "productivity", "roasts"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Slur",
+    "shortDescription": "Calibrated contempt for AI agents.",
+    "longDescription": "Runs the local Slur CLI to emit one or more configurable roasts, manage a word blacklist, or disable output entirely.",
+    "developerName": "Slur contributors",
+    "category": "Developer Tools",
+    "capabilities": ["Interactive", "Local"],
+    "defaultPrompt": [
+      "Use $slur to emit one roast.",
+      "Use $slur to emit three unique roasts.",
+      "Use $slur to block a word from future output."
+    ],
+    "brandColor": "#D4FF3F"
+  }
+}

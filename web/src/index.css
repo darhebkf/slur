@@ -1,0 +1,96 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@import "@fontsource-variable/geist";
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  --paper: #f2f1ec;
+  --ink: #11110f;
+  --acid: #d4ff3f;
+  --line: #cbc9c0;
+  --dark-line: #3c3c37;
+  --mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  --background: #f2f1ec;
+  --foreground: #11110f;
+  --card: #f2f1ec;
+  --card-foreground: #11110f;
+  --popover: #f2f1ec;
+  --popover-foreground: #11110f;
+  --primary: #11110f;
+  --primary-foreground: #f2f1ec;
+  --secondary: #dfddd5;
+  --secondary-foreground: #11110f;
+  --muted: #dfddd5;
+  --muted-foreground: #636159;
+  --accent: #d4ff3f;
+  --accent-foreground: #11110f;
+  --destructive: #b42318;
+  --border: #cbc9c0;
+  --input: #cbc9c0;
+  --ring: #11110f;
+  --radius: 0;
+  font-family: "Geist Variable", Helvetica, Arial, sans-serif;
+  color: var(--ink);
+  background: var(--paper);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+@theme inline {
+  --font-sans: "Geist Variable", Helvetica, Arial, sans-serif;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --radius-sm: 0;
+  --radius-md: 0;
+  --radius-lg: 0;
+  --radius-xl: 0;
+}
+
+@layer base {
+  * {
+    box-sizing: border-box;
+    border-color: var(--border);
+    outline-color: color-mix(in srgb, var(--ring) 50%, transparent);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    min-width: 320px;
+    min-height: 100svh;
+    margin: 0;
+    background: var(--paper);
+  }
+
+  button,
+  a,
+  input {
+    font: inherit;
+  }
+
+  button,
+  a {
+    -webkit-tap-highlight-color: transparent;
+  }
+}

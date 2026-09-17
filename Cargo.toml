@@ -1,0 +1,18 @@
+[package]
+name = "slur"
+version = "0.1.0"
+edition = "2024"
+description = "A tiny, local phrase cannon for AI agents that should know better."
+license = "MIT"
+readme = "README.md"
+keywords = ["cli", "agents", "productivity", "roast"]
+categories = ["command-line-utilities"]
+
+[dependencies]
+
+[profile.release]
+codegen-units = 1
+lto = true
+opt-level = 3
+panic = "abort"
+strip = "symbols"
