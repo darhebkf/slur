@@ -6,6 +6,7 @@ description = "A tiny local random-slur command for coding agents."
 license = "MIT"
 readme = "README.md"
 repository = "https://github.com/darhebkf/slur"
+homepage = "https://ruls.dev"
 rust-version = "1.85"
 keywords = ["cli", "agents", "productivity", "slur"]
 categories = ["command-line-utilities"]

@@ -2,10 +2,134 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="A random 1–5 word command for coding agents." />
-    <title>Slur</title>
+    <title>Slur: /slur for Claude Code, Codex &amp; AI Coding Agents</title>
+    <meta name="title" content="Slur: /slur for Claude Code, Codex &amp; AI Coding Agents" />
+    <meta
+      name="description"
+      content="Install /slur, a local prompt expander for Claude Code, Codex, Cursor, OpenCode, Gemini CLI, Copilot CLI, Cline, and Windsurf."
+    />
+    <meta name="application-name" content="Slur" />
+    <meta name="author" content="darhebkf" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <meta
+      name="robots"
+      content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    />
+    <meta
+      name="googlebot"
+      content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)" />
+
+    <link rel="canonical" href="https://ruls.dev/" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" sizes="any" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <link rel="author" href="https://github.com/darhebkf" />
+    <link rel="license" href="https://github.com/darhebkf/slur/blob/main/LICENSE" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Slur" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:url" content="https://ruls.dev/" />
+    <meta property="og:title" content="Slur: /slur for Claude Code, Codex &amp; AI Coding Agents" />
+    <meta
+      property="og:description"
+      content="A local prompt expander and slash-command plugin for eight coding-agent harnesses."
+    />
+    <meta property="og:image" content="https://ruls.dev/og.png" />
+    <meta property="og:image:secure_url" content="https://ruls.dev/og.png" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Slur — local slash-command expander for coding agents" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Slur: /slur for Claude Code, Codex &amp; AI Coding Agents" />
+    <meta
+      name="twitter:description"
+      content="A local prompt expander and slash-command plugin for eight coding-agent harnesses."
+    />
+    <meta name="twitter:image" content="https://ruls.dev/og.png" />
+    <meta name="twitter:image:alt" content="Slur — local slash-command expander for coding agents" />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebSite",
+            "@id": "https://ruls.dev/#website",
+            "url": "https://ruls.dev/",
+            "name": "Slur",
+            "description": "A local prompt expander and slash-command plugin for coding agents.",
+            "inLanguage": "en",
+            "publisher": { "@id": "https://ruls.dev/#author" }
+          },
+          {
+            "@type": "WebPage",
+            "@id": "https://ruls.dev/#webpage",
+            "url": "https://ruls.dev/",
+            "name": "Slur: /slur for Claude Code, Codex & AI Coding Agents",
+            "description": "Install and configure /slur for Claude Code, Codex, OpenCode, Gemini CLI, Copilot CLI, Cursor, Cline, and Windsurf.",
+            "isPartOf": { "@id": "https://ruls.dev/#website" },
+            "about": { "@id": "https://ruls.dev/#software" },
+            "mainEntity": { "@id": "https://ruls.dev/#software" },
+            "inLanguage": "en"
+          },
+          {
+            "@type": "SoftwareApplication",
+            "@id": "https://ruls.dev/#software",
+            "name": "Slur",
+            "alternateName": "/slur",
+            "description": "A free, open-source, local prompt expander and slash-command plugin that replaces standalone /slur tokens with random one-to-five-term combinations.",
+            "url": "https://ruls.dev/",
+            "sameAs": "https://github.com/darhebkf/slur",
+            "downloadUrl": "https://github.com/darhebkf/slur/releases/latest",
+            "installUrl": "https://ruls.dev/#install",
+            "softwareVersion": "0.9.0",
+            "applicationCategory": "DeveloperApplication",
+            "applicationSubCategory": "Command-line utility",
+            "operatingSystem": "macOS, Linux, Windows",
+            "isAccessibleForFree": true,
+            "license": "https://github.com/darhebkf/slur/blob/main/LICENSE",
+            "author": { "@id": "https://ruls.dev/#author" },
+            "offers": {
+              "@type": "Offer",
+              "price": "0",
+              "priceCurrency": "USD"
+            },
+            "featureList": [
+              "Expands every standalone /slur token independently",
+              "Generates random combinations of one to five terms",
+              "Runs locally without telemetry",
+              "Supports per-user allow and block lists",
+              "Integrates with Claude Code, Codex, OpenCode, Gemini CLI, GitHub Copilot CLI, Cursor, Cline, and Windsurf"
+            ]
+          },
+          {
+            "@type": "SoftwareSourceCode",
+            "@id": "https://ruls.dev/#source",
+            "name": "Slur source code",
+            "codeRepository": "https://github.com/darhebkf/slur",
+            "programmingLanguage": "Rust",
+            "runtimePlatform": "macOS, Linux, Windows",
+            "license": "https://github.com/darhebkf/slur/blob/main/LICENSE",
+            "version": "0.9.0",
+            "author": { "@id": "https://ruls.dev/#author" },
+            "targetProduct": { "@id": "https://ruls.dev/#software" }
+          },
+          {
+            "@type": "Person",
+            "@id": "https://ruls.dev/#author",
+            "name": "darhebkf",
+            "url": "https://github.com/darhebkf"
+          }
+        ]
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>

@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Content-Signal: search=yes, ai-input=yes, use=reference
+
+Sitemap: https://ruls.dev/sitemap.xml

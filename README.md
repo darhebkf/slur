@@ -2,6 +2,8 @@
 
 Slur is a local text generator for coding agents. It produces random combinations of one to five terms and can expand each standalone `/slur` token in a prompt.
 
+Website: [ruls.dev](https://ruls.dev/)
+
 ```text
 You /slur your work needs another pass, you /slur.
 ```

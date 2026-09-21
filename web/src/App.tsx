@@ -1,9 +1,9 @@
 import {
   type CSSProperties,
   useLayoutEffect,
-  useMemo,
   useRef,
   useState,
+  useSyncExternalStore,
 } from 'react'
 import {
   AnimatePresence,
@@ -18,18 +18,14 @@ import {
   TabsList,
   TabsTrigger,
 } from '@/components/ui/tabs'
-import slurSource from '../../data/slurs.txt?raw'
+import {
+  createGeneratedContent,
+  type GeneratedContent,
+} from '@/generated-content'
 import './App.css'
 
 const GITHUB_URL = 'https://github.com/darhebkf/slur'
 const RAW_URL = 'https://raw.githubusercontent.com/darhebkf/slur/main'
-
-const defaultBlocked = new Set(['nigger', 'nigga', 'faggot', 'fag'])
-
-const words = slurSource
-  .split(/\r?\n/)
-  .map((line) => line.trim())
-  .filter((line) => line && !line.startsWith('#') && !defaultBlocked.has(line.toLowerCase()))
 
 const platforms = [
   { label: 'macOS / Linux', value: 'unix' },
@@ -45,26 +41,17 @@ const settings = [
 
 type Platform = (typeof platforms)[number]['value']
 
-/** Returns a cryptographically random index below `upper`. */
-function randomIndex(upper: number) {
-  if (upper <= 1) return 0
-
-  const values = new Uint32Array(1)
-  crypto.getRandomValues(values)
-  return values[0] % upper
+interface AppProps {
+  initialContent?: GeneratedContent
 }
 
-/** Builds a combination of one to five unique terms from `source`. */
-function combination(source = words) {
-  const pool = [...source]
-  const count = 1 + randomIndex(Math.min(5, pool.length))
+const clientGeneratedContent = typeof window === 'undefined'
+  ? undefined
+  : createGeneratedContent()
 
-  for (let index = 0; index < count; index += 1) {
-    const swapWith = index + randomIndex(pool.length - index)
-    ;[pool[index], pool[swapWith]] = [pool[swapWith], pool[index]]
-  }
-
-  return pool.slice(0, count).join(' ')
+/** Subscribes to immutable per-load generated content. */
+function subscribeToGeneratedContent() {
+  return () => undefined
 }
 
 /** Returns the public install command for a supported platform. */
@@ -100,17 +87,17 @@ async function writeClipboard(value: string) {
   if (!copied) throw new Error('clipboard unavailable')
 }
 
-/** Renders the Slur landing page. */
-function App() {
+/** Renders the Slur landing page from prerendered or newly generated content. */
+function App({ initialContent }: AppProps = {}) {
   const heroRef = useRef<HTMLElement>(null)
   const railRef = useRef<HTMLElement>(null)
   const stageRef = useRef<HTMLDivElement>(null)
   const trackRefs = useRef<Array<HTMLDivElement | null>>([])
   const reduceMotion = useReducedMotion()
-  const hero = useMemo(() => combination(), [])
-  const rows = useMemo(
-    () => Array.from({ length: 3 }, () => Array.from({ length: 6 }, () => combination())),
-    [],
+  const generatedContent = useSyncExternalStore(
+    subscribeToGeneratedContent,
+    () => clientGeneratedContent ?? initialContent ?? createGeneratedContent(),
+    () => initialContent ?? createGeneratedContent(),
   )
   const [railDistances, setRailDistances] = useState([0, 0, 0])
   const [platform, setPlatform] = useState<Platform>('unix')
@@ -162,6 +149,7 @@ function App() {
     '--rail-distance': `${reduceMotion ? 0 : horizontalDistance}px`,
   } as CSSProperties
   const command = installCommand(platform)
+  const { hero, rows } = generatedContent
   const heroWordCount = hero.split(' ').length
 
   const copyCommand = async () => {
@@ -177,15 +165,23 @@ function App() {
   return (
     <div className="site-shell">
       <main>
-        <section className="hero" ref={heroRef} aria-labelledby="hero-output">
-          <motion.span className="watermark" aria-hidden="true" style={{ y: watermarkY }}>
-            SLUR
-          </motion.span>
+        <section className="hero" ref={heroRef} aria-labelledby="site-title">
+          <h1 className="sr-only" id="site-title">Slur</h1>
+          <motion.span
+            className="watermark"
+            aria-hidden="true"
+            data-watermark="SLUR"
+            style={{ y: watermarkY }}
+          />
 
           <motion.div className="hero-center" style={{ y: phraseY }}>
-            <h1 className={`hero-output words-${heroWordCount}`} id="hero-output">
+            <p
+              className={`hero-output words-${heroWordCount}`}
+              id="hero-output"
+              aria-label={`Generated combination: ${hero}`}
+            >
               {hero}
-            </h1>
+            </p>
 
             <div className="hero-actions" aria-label="Project links">
               <a className="primary-cta" href="#install">
@@ -205,6 +201,33 @@ function App() {
 
         <section className="why" aria-label="Why Slur">
           <p className="why-copy">because lets be real, you type slurs to your harness too</p>
+        </section>
+
+        <section className="definition" aria-labelledby="definition-title">
+          <h2 className="definition-heading" id="definition-title">what is /slur?</h2>
+
+          <dl className="definition-list">
+            <div className="definition-row">
+              <dt>what</dt>
+              <dd>
+                Slur is a local prompt expander for coding agents. It replaces every
+                standalone <code>/slur</code> token with a random one-to-five-term combination.
+              </dd>
+            </div>
+            <div className="definition-row">
+              <dt>where</dt>
+              <dd>
+                Claude Code, Codex, OpenCode, Gemini CLI, GitHub Copilot CLI, Cursor,
+                Cline, and Windsurf.
+              </dd>
+            </div>
+            <div className="definition-row">
+              <dt>privacy</dt>
+              <dd>
+                Local Rust binary. No network requests or telemetry while generating.
+              </dd>
+            </div>
+          </dl>
         </section>
 
         <section

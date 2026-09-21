@@ -22,6 +22,7 @@
   z-index: -1;
   top: 50%;
   left: 50%;
+  margin: 0;
   color: var(--inverse-ghost);
   font-size: clamp(12rem, 38vw, 42rem);
   font-weight: 720;
@@ -31,6 +32,10 @@
   pointer-events: none;
   user-select: none;
   white-space: nowrap;
+}
+
+.watermark::before {
+  content: attr(data-watermark);
 }
 
 .hero-center {
@@ -135,6 +140,53 @@
   letter-spacing: -0.075em;
   line-height: 0.84;
   text-align: center;
+  text-wrap: balance;
+}
+
+.definition {
+  padding: clamp(6rem, 12vw, 12rem) clamp(1.25rem, 3vw, 3rem);
+  background: var(--paper);
+  color: var(--ink);
+}
+
+.definition-heading {
+  max-width: 12ch;
+  margin: 0;
+  font-size: clamp(4rem, 12vw, 12rem);
+  font-weight: 650;
+  letter-spacing: -0.085em;
+  line-height: 0.76;
+}
+
+.definition-list {
+  margin: clamp(4rem, 8vw, 8rem) 0 0;
+  border-top: 1px solid var(--line);
+}
+
+.definition-row {
+  min-height: clamp(6rem, 10vw, 9rem);
+  padding: 1.25rem 0;
+  border-bottom: 1px solid var(--line);
+  display: grid;
+  grid-template-columns: minmax(8rem, 1fr) minmax(0, 2fr);
+  align-items: center;
+  gap: clamp(1.5rem, 4vw, 5rem);
+}
+
+.definition-row dt {
+  color: var(--muted-ink);
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.definition-row dd {
+  max-width: 58rem;
+  margin: 0;
+  font-size: clamp(1.25rem, 2.4vw, 2.5rem);
+  font-weight: 520;
+  letter-spacing: -0.045em;
+  line-height: 1.08;
   text-wrap: balance;
 }
 
@@ -528,6 +580,12 @@ footer {
     font-size: clamp(3.25rem, 17vw, 6rem);
   }
 
+  .definition-row {
+    grid-template-columns: 1fr;
+    align-content: center;
+    gap: 0.75rem;
+  }
+
   .rail-phrase {
     font-size: clamp(2rem, 10vw, 3.8rem);
   }
@@ -568,7 +626,6 @@ footer {
   .command-panel code > span:not(:last-child)::after {
     content: ' ';
   }
-
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title description">
+  <title id="title">Slur</title>
+  <desc id="description">A local slash-command expander for coding agents.</desc>
+  <rect width="1200" height="630" fill="#000000"/>
+  <path d="M56 54h1088v522H56z" fill="none" stroke="#303030" stroke-width="2"/>
+  <text x="600" y="355" fill="#ffffff" font-family="Arial, Helvetica, sans-serif" font-size="230" font-weight="700" letter-spacing="-18" text-anchor="middle">SLUR</text>
+  <text x="84" y="530" fill="#8a8a8a" font-family="Arial, Helvetica, sans-serif" font-size="28">/slur for coding agents</text>
+  <text x="1116" y="530" fill="#8a8a8a" font-family="Arial, Helvetica, sans-serif" font-size="28" text-anchor="end">ruls.dev</text>
+</svg>
