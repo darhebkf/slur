@@ -2,4 +2,5 @@
 /web/dist
 /web/node_modules
 /.sites-runtime
+/.wrangler
 .DS_Store
