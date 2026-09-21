@@ -81,10 +81,10 @@ jobs:
         if: runner.os != 'Windows'
         shell: bash
         run: |
-          mkdir -p dist
+          mkdir -p release-out
           archive="${{ matrix.asset }}.${{ matrix.archive }}"
-          tar -czf "dist/$archive" -C "target/${{ matrix.target }}/release" "${{ matrix.executable }}"
-          cd dist
+          tar -czf "release-out/$archive" -C "target/${{ matrix.target }}/release" "${{ matrix.executable }}"
+          cd release-out
           if command -v sha256sum >/dev/null 2>&1; then
             sha256sum "$archive" > "$archive.sha256"
           else
@@ -95,19 +95,19 @@ jobs:
         if: runner.os == 'Windows'
         shell: pwsh
         run: |
-          New-Item -ItemType Directory -Force -Path dist | Out-Null
+          New-Item -ItemType Directory -Force -Path release-out | Out-Null
           $archive = "${{ matrix.asset }}.${{ matrix.archive }}"
           Compress-Archive `
             -Path "target/${{ matrix.target }}/release/${{ matrix.executable }}" `
-            -DestinationPath "dist/$archive"
-          $hash = (Get-FileHash -Algorithm SHA256 "dist/$archive").Hash.ToLowerInvariant()
-          "$hash  $archive" | Set-Content -NoNewline "dist/$archive.sha256"
+            -DestinationPath "release-out/$archive"
+          $hash = (Get-FileHash -Algorithm SHA256 "release-out/$archive").Hash.ToLowerInvariant()
+          "$hash  $archive" | Set-Content -NoNewline "release-out/$archive.sha256"
 
       - name: Upload the packaged binary
         uses: actions/upload-artifact@v7
         with:
           name: release-${{ matrix.asset }}
-          path: dist/*
+          path: release-out/*
           if-no-files-found: error
           compression-level: 0
           retention-days: 1
