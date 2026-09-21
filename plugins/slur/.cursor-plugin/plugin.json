@@ -1,0 +1,11 @@
+{
+  "name": "slur",
+  "version": "0.1.0",
+  "description": "Generate a random 1–5-term replacement prompt with the local Rust binary.",
+  "author": {
+    "name": "Slur contributors"
+  },
+  "license": "MIT",
+  "keywords": ["agents", "commands", "slurs"],
+  "commands": "./commands/"
+}

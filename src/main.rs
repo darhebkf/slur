@@ -1,24 +1,84 @@
+mod setup;
+
 use std::env;
+use std::io::{self, Read};
 use std::process::ExitCode;
 
-use slur::Config;
+use clap::{Parser, Subcommand, ValueEnum};
+use setup::Harness;
+use slur::{Config, cline_hook_output, codex_hook_output, copilot_hook_output, hook_prompt};
 
-const HELP: &str = r#"slur — calibrated contempt for AI agents
+#[derive(Parser)]
+#[command(
+    name = "slur",
+    version,
+    about = "Emit a random 1–5-term combination",
+    disable_help_subcommand = true
+)]
+struct Cli {
+    #[command(subcommand)]
+    command: Option<CommandKind>,
+}
 
-USAGE
-  slur                         Emit one phrase
-  slur [COUNT]                 Emit a unique batch
-  slur emit [--count N]        Emit one or more phrases
-  slur add "PHRASE"            Add a custom phrase
-  slur block "WORD"            Hide phrases containing a word
-  slur unblock "WORD"          Remove a word from the blacklist
-  slur list                    Print active phrases
-  slur off | on                Disable or enable all output
-  slur status                  Show the local configuration summary
+#[derive(Subcommand)]
+enum CommandKind {
+    /// Emit one or more random combinations.
+    Emit {
+        #[arg(value_name = "COUNT", conflicts_with = "number")]
+        count: Option<usize>,
+        #[arg(short = 'n', long = "count", value_name = "COUNT")]
+        number: Option<usize>,
+    },
+    /// Replace every inline /slur token while preserving the rest of the text.
+    Expand {
+        #[arg(num_args = 0.., trailing_var_arg = true, allow_hyphen_values = true)]
+        text: Vec<String>,
+    },
+    /// Add a custom term or phrase.
+    Add {
+        #[arg(required = true, num_args = 1..)]
+        phrase: Vec<String>,
+    },
+    /// Hide every term or phrase containing this value.
+    Block {
+        #[arg(required = true, num_args = 1..)]
+        term: Vec<String>,
+    },
+    /// Remove a value from the blacklist.
+    Unblock {
+        #[arg(required = true, num_args = 1..)]
+        term: Vec<String>,
+    },
+    /// Print every active term and phrase.
+    List,
+    /// Disable generated output.
+    Off,
+    /// Re-enable generated output.
+    On,
+    /// Show the local configuration summary.
+    Status,
+    /// Detect harnesses and install their /slur adapters.
+    Setup {
+        #[arg(value_enum)]
+        targets: Vec<Harness>,
+        #[arg(long, conflicts_with = "targets")]
+        all: bool,
+        #[arg(long, hide = true)]
+        yes: bool,
+    },
+    #[command(hide = true)]
+    Hook {
+        #[arg(value_enum)]
+        target: HookTarget,
+    },
+}
 
-ENVIRONMENT
-  SLUR_HOME                    Override the configuration directory
-"#;
+#[derive(Clone, Copy, ValueEnum)]
+enum HookTarget {
+    Context,
+    Copilot,
+    Cline,
+}
 
 fn main() -> ExitCode {
     match run() {
@@ -31,29 +91,41 @@ fn main() -> ExitCode {
 }
 
 fn run() -> Result<(), String> {
-    let mut config = Config::load().map_err(|error| error.to_string())?;
-    let args = env::args().skip(1).collect::<Vec<_>>();
-    let command = args.first().map(String::as_str);
+    let raw_args = env::args().collect::<Vec<_>>();
+    if raw_args.len() == 2
+        && raw_args[1]
+            .chars()
+            .all(|character| character.is_ascii_digit())
+    {
+        let count = parse_count(&raw_args[1])?;
+        let config = Config::load().map_err(|error| error.to_string())?;
+        print_batch(config.emit(count)?);
+        return Ok(());
+    }
 
+    let command = Cli::parse_from(raw_args).command;
+    let command = match command {
+        Some(CommandKind::Setup { targets, all, yes }) => return setup::run(targets, all, yes),
+        Some(CommandKind::Hook { target }) => return run_hook(target),
+        Some(CommandKind::Expand { text }) => return run_expand(text),
+        other => other,
+    };
+
+    let mut config = Config::load().map_err(|error| error.to_string())?;
     match command {
         None => {
             print_batch(config.emit(1)?);
             Ok(())
         }
-        Some("emit") => {
-            let count = parse_emit_count(&args[1..])?;
+        Some(CommandKind::Emit { count, number }) => {
+            let count = count.or(number).unwrap_or(1);
+            let count = validate_count(count)?;
             print_batch(config.emit(count)?);
             Ok(())
         }
-        Some(value) if value.chars().all(|character| character.is_ascii_digit()) => {
-            let count = parse_count(value)?;
-            print_batch(config.emit(count)?);
-            Ok(())
-        }
-        Some("add") => {
-            let phrase = joined_value(&args[1..], "phrase")?;
+        Some(CommandKind::Add { phrase }) => {
             let added = config
-                .add_phrase(&phrase)
+                .add_phrase(&phrase.join(" "))
                 .map_err(|error| error.to_string())?;
             println!(
                 "{}",
@@ -65,9 +137,10 @@ fn run() -> Result<(), String> {
             );
             Ok(())
         }
-        Some("block") => {
-            let term = joined_value(&args[1..], "word")?;
-            let added = config.block(&term).map_err(|error| error.to_string())?;
+        Some(CommandKind::Block { term }) => {
+            let added = config
+                .block(&term.join(" "))
+                .map_err(|error| error.to_string())?;
             println!(
                 "{}",
                 if added {
@@ -78,9 +151,10 @@ fn run() -> Result<(), String> {
             );
             Ok(())
         }
-        Some("unblock") => {
-            let term = joined_value(&args[1..], "word")?;
-            let removed = config.unblock(&term).map_err(|error| error.to_string())?;
+        Some(CommandKind::Unblock { term }) => {
+            let removed = config
+                .unblock(&term.join(" "))
+                .map_err(|error| error.to_string())?;
             println!(
                 "{}",
                 if removed {
@@ -91,69 +165,100 @@ fn run() -> Result<(), String> {
             );
             Ok(())
         }
-        Some("list") => {
+        Some(CommandKind::List) => {
             print_batch(config.active_phrases());
             Ok(())
         }
-        Some("off") => {
+        Some(CommandKind::Off) => {
             config
                 .set_enabled(false)
                 .map_err(|error| error.to_string())?;
             println!("output disabled");
             Ok(())
         }
-        Some("on") => {
+        Some(CommandKind::On) => {
             config
                 .set_enabled(true)
                 .map_err(|error| error.to_string())?;
             println!("output enabled");
             Ok(())
         }
-        Some("status") => {
-            println!("status: {}", if config.enabled { "armed" } else { "off" });
-            println!("active: {}", config.active_phrases().len());
-            println!("custom: {}", config.custom.len());
-            println!("blocked: {}", config.blocked.len());
-            println!("config: {}", config.root().display());
+        Some(CommandKind::Status) => {
+            println!("{}", status(&config));
             Ok(())
         }
-        Some("-h" | "--help" | "help") => {
-            print!("{HELP}");
-            Ok(())
+        Some(CommandKind::Setup { .. } | CommandKind::Hook { .. } | CommandKind::Expand { .. }) => {
+            unreachable!()
         }
-        Some("-V" | "--version" | "version") => {
-            println!("slur {}", env!("CARGO_PKG_VERSION"));
-            Ok(())
-        }
-        Some(other) => Err(format!("unknown command `{other}`\n\n{HELP}")),
     }
 }
 
-fn parse_emit_count(args: &[String]) -> Result<usize, String> {
-    match args {
-        [] => Ok(1),
-        [value] => parse_count(value),
-        [flag, value] if flag == "--count" || flag == "-n" => parse_count(value),
-        _ => Err("use `slur emit`, `slur emit 3`, or `slur emit --count 3`".to_owned()),
-    }
+fn run_expand(arguments: Vec<String>) -> Result<(), String> {
+    let input = if arguments.is_empty() {
+        let mut input = String::new();
+        io::stdin()
+            .read_to_string(&mut input)
+            .map_err(|error| error.to_string())?;
+        input
+    } else {
+        arguments.join(" ")
+    };
+    let config = Config::load().map_err(|error| error.to_string())?;
+    let output = config.expand_prompt(&input)?.unwrap_or(input);
+    print!("{output}");
+    Ok(())
+}
+
+fn run_hook(target: HookTarget) -> Result<(), String> {
+    let mut input = String::new();
+    io::stdin()
+        .read_to_string(&mut input)
+        .map_err(|error| error.to_string())?;
+    let prompt = hook_prompt(&input, "prompt");
+
+    let Some(prompt) = prompt else {
+        println!("{{}}");
+        return Ok(());
+    };
+
+    let config = Config::load().map_err(|error| error.to_string())?;
+    let Some(expanded_prompt) = config.expand_prompt(&prompt)? else {
+        println!("{{}}");
+        return Ok(());
+    };
+    let output = match target {
+        HookTarget::Context => codex_hook_output(&expanded_prompt),
+        HookTarget::Copilot => copilot_hook_output(&expanded_prompt),
+        HookTarget::Cline => cline_hook_output(&expanded_prompt),
+    };
+    println!("{output}");
+    Ok(())
+}
+
+fn status(config: &Config) -> String {
+    format!(
+        "status: {}\nactive: {}\ncustom: {}\nblocked: {}\nconfig: {}",
+        if config.enabled { "armed" } else { "off" },
+        config.active_phrases().len(),
+        config.custom.len(),
+        config.blocked.len(),
+        config.root().display()
+    )
 }
 
 fn parse_count(value: &str) -> Result<usize, String> {
-    let count = value
+    value
         .parse::<usize>()
-        .map_err(|_| format!("`{value}` is not a valid count"))?;
-    if !(1..=64).contains(&count) {
-        return Err("count must be between 1 and 64".to_owned());
-    }
-    Ok(count)
+        .map_err(|_| format!("`{value}` is not a valid count"))
+        .and_then(validate_count)
 }
 
-fn joined_value(args: &[String], label: &str) -> Result<String, String> {
-    let value = args.join(" ");
-    if value.trim().is_empty() {
-        return Err(format!("missing {label}"));
+fn validate_count(count: usize) -> Result<usize, String> {
+    if (1..=64).contains(&count) {
+        Ok(count)
+    } else {
+        Err("count must be between 1 and 64".to_owned())
     }
-    Ok(value)
 }
 
 fn print_batch(phrases: Vec<String>) {

@@ -1,0 +1,16 @@
+{
+  "description": "Expand inline /slur macros before the prompt reaches the model.",
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "slur hook context",
+            "timeout": 2
+          }
+        ]
+      }
+    ]
+  }
+}

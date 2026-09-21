@@ -1,7 +1,7 @@
 {
-  "name": "personal",
+  "name": "slur-local",
   "interface": {
-    "displayName": "Personal"
+    "displayName": "Slur"
   },
   "plugins": [
     {

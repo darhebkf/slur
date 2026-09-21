@@ -2,13 +2,37 @@
 name = "slur"
 version = "0.1.0"
 edition = "2024"
-description = "A tiny, local phrase cannon for AI agents that should know better."
+description = "A tiny local random-slur command for coding agents."
 license = "MIT"
 readme = "README.md"
-keywords = ["cli", "agents", "productivity", "roast"]
+repository = "https://github.com/darhebkf/slur"
+rust-version = "1.85"
+keywords = ["cli", "agents", "productivity", "slur"]
 categories = ["command-line-utilities"]
+include = [
+  "/src/**",
+  "/data/**",
+  "/plugins/**",
+  "/.agents/plugins/**",
+  "/.claude-plugin/**",
+  "/.cline/**",
+  "/.cursor/**",
+  "/.cursor-plugin/**",
+  "/.gemini/**",
+  "/.github/hooks/**",
+  "/.github/skills/**",
+  "/.opencode/commands/**",
+  "/.opencode/plugin/*.js",
+  "/.windsurf/**",
+  "/Cargo.toml",
+  "/Cargo.lock",
+  "/README.md",
+  "/LICENSE",
+]
 
 [dependencies]
+clap = { version = "4.6.7", features = ["derive"] }
+cliclack = "0.5.6"
 
 [profile.release]
 codegen-units = 1

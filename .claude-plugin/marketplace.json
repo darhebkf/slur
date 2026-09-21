@@ -1,0 +1,16 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "slur-local",
+  "description": "Local development marketplace for Slur.",
+  "owner": {
+    "name": "Slur contributors"
+  },
+  "plugins": [
+    {
+      "name": "slur",
+      "description": "Expand inline /slur macros with the local Rust generator.",
+      "source": "./plugins/slur",
+      "category": "productivity"
+    }
+  ]
+}

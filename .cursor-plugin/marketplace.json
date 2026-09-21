@@ -1,0 +1,10 @@
+{
+  "name": "slur",
+  "plugins": [
+    {
+      "name": "slur",
+      "source": "plugins/slur",
+      "description": "Generate a random 1–5-term replacement prompt with the local Rust binary."
+    }
+  ]
+}

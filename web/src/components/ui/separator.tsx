@@ -1,6 +1,7 @@
 import { Separator as SeparatorPrimitive } from "@base-ui/react/separator"
 import { cn } from "cn"
 
+/** Renders a horizontal or vertical separator. */
 function Separator({
   className,
   orientation = "horizontal",

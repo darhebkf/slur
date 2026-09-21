@@ -1,7 +1,6 @@
 interface:
-  display_name: "Slur"
-  short_description: "Emit a configurable roast on explicit request"
-  brand_color: "#D4FF3F"
-  default_prompt: "Use $slur to emit one configured roast."
+  display_name: "Replace"
+  short_description: "with slur"
+  default_prompt: "Use $slur:slur to replace /slur in this prompt."
 policy:
   allow_implicit_invocation: false

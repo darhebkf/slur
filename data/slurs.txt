@@ -1,0 +1,26 @@
+# Ranked categories from https://cs2tracker.gg/slurs-tracking.
+# The source ranks the racial variants first, the disability-related term
+# second, and the anti-gay variants third. It also names the profanity groups.
+# No player messages or identifying data are copied.
+nigger
+nigga
+retard
+faggot
+fag
+
+# Common profanity groups from the same source.
+fuck
+shit
+bitch
+cunt
+ass
+dick
+pussy
+whore
+bastard
+
+# Additional words in Slur's default composition pool.
+stupid
+fucking
+dumbass
+clanker

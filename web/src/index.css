@@ -6,30 +6,36 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  --paper: #f2f1ec;
-  --ink: #11110f;
-  --acid: #d4ff3f;
-  --line: #cbc9c0;
-  --dark-line: #3c3c37;
-  --mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
-  --background: #f2f1ec;
-  --foreground: #11110f;
-  --card: #f2f1ec;
-  --card-foreground: #11110f;
-  --popover: #f2f1ec;
-  --popover-foreground: #11110f;
-  --primary: #11110f;
-  --primary-foreground: #f2f1ec;
-  --secondary: #dfddd5;
-  --secondary-foreground: #11110f;
-  --muted: #dfddd5;
-  --muted-foreground: #636159;
-  --accent: #d4ff3f;
-  --accent-foreground: #11110f;
-  --destructive: #b42318;
-  --border: #cbc9c0;
-  --input: #cbc9c0;
-  --ring: #11110f;
+  color-scheme: light dark;
+  --paper: #ffffff;
+  --ink: #000000;
+  --line: #1f1f1f;
+  --muted-ink: #666666;
+  --inverse-paper: #000000;
+  --inverse-ink: #ffffff;
+  --inverse-line: #303030;
+  --inverse-muted: #777777;
+  --inverse-ghost: #0d0d0d;
+  --rail-contrast: #000000;
+  --rail-contrast-ink: #ffffff;
+  --background: #ffffff;
+  --foreground: #000000;
+  --card: #ffffff;
+  --card-foreground: #000000;
+  --popover: #ffffff;
+  --popover-foreground: #000000;
+  --primary: #000000;
+  --primary-foreground: #ffffff;
+  --secondary: #eeeeee;
+  --secondary-foreground: #000000;
+  --muted: #eeeeee;
+  --muted-foreground: #666666;
+  --accent: #ffffff;
+  --accent-foreground: #000000;
+  --destructive: #000000;
+  --border: #262626;
+  --input: #262626;
+  --ring: #000000;
   --radius: 0;
   font-family: "Geist Variable", Helvetica, Arial, sans-serif;
   color: var(--ink);
@@ -37,6 +43,35 @@
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #050505;
+    --ink: #f7f7f7;
+    --line: #353535;
+    --muted-ink: #999999;
+    --background: #050505;
+    --foreground: #f7f7f7;
+    --card: #050505;
+    --card-foreground: #f7f7f7;
+    --popover: #050505;
+    --popover-foreground: #f7f7f7;
+    --primary: #f7f7f7;
+    --primary-foreground: #050505;
+    --secondary: #1b1b1b;
+    --secondary-foreground: #f7f7f7;
+    --muted: #1b1b1b;
+    --muted-foreground: #999999;
+    --accent: #121212;
+    --accent-foreground: #f7f7f7;
+    --destructive: #f7f7f7;
+    --border: #353535;
+    --input: #353535;
+    --ring: #f7f7f7;
+    --rail-contrast: #ffffff;
+    --rail-contrast-ink: #000000;
+  }
 }
 
 @theme inline {
@@ -74,6 +109,7 @@
 
   html {
     scroll-behavior: smooth;
+    scrollbar-color: var(--muted-ink) var(--paper);
   }
 
   body {
@@ -81,6 +117,7 @@
     min-height: 100svh;
     margin: 0;
     background: var(--paper);
+    overflow-x: hidden;
   }
 
   button,
@@ -92,5 +129,10 @@
   button,
   a {
     -webkit-tap-highlight-color: transparent;
+  }
+
+  ::selection {
+    background: var(--ink);
+    color: var(--paper);
   }
 }

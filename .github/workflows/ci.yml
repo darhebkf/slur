@@ -1,0 +1,107 @@
+name: Verify changes
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  rust:
+    name: Rust / ${{ matrix.name }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: Format
+            command: cargo fmt --all -- --check
+          - name: Check
+            command: cargo check --locked
+          - name: Test
+            command: cargo test --locked
+          - name: Clippy
+            command: cargo clippy --all-targets --all-features --locked -- -D warnings
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v7
+      - name: Install the Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          components: clippy, rustfmt
+      - name: Run ${{ matrix.name }}
+        run: timeout --signal=TERM 60s ${{ matrix.command }}
+
+  web:
+    name: Web / ${{ matrix.name }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: Lint
+            command: bun run lint
+          - name: Build
+            command: bun run build
+    defaults:
+      run:
+        working-directory: web
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v7
+      - name: Install Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - name: Install dependencies
+        run: timeout --signal=TERM 60s bun install --frozen-lockfile
+      - name: Run ${{ matrix.name }}
+        run: timeout --signal=TERM 60s ${{ matrix.command }}
+
+  metadata:
+    name: Validate metadata and installers
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v7
+      - name: Validate JSON files
+        run: |
+          while IFS= read -r -d '' json_file; do
+            timeout --signal=TERM 60s jq empty "$json_file"
+          done < <(
+            find . -type f -name '*.json' \
+              -not -name 'tsconfig*.json' \
+              -not -path './.git/*' \
+              -not -path './target/*' \
+              -not -path '*/node_modules/*' \
+              -print0
+          )
+      - name: Validate the Cargo manifest
+        run: timeout --signal=TERM 60s cargo metadata --locked --no-deps --format-version 1 > /dev/null
+      - name: Validate the shell installer
+        run: timeout --signal=TERM 60s bash -n scripts/install.sh
+      - name: Validate the PowerShell installer
+        shell: pwsh
+        run: |
+          $tokens = $null
+          $errors = $null
+          [System.Management.Automation.Language.Parser]::ParseFile(
+            (Resolve-Path scripts/install.ps1),
+            [ref]$tokens,
+            [ref]$errors
+          ) > $null
+          if ($errors.Count -gt 0) {
+            $errors | ForEach-Object { Write-Error $_ }
+            exit 1
+          }

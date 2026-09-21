@@ -1,7 +1,0 @@
-interface:
-  display_name: "Slur"
-  short_description: "Emit a configurable roast on explicit request"
-  brand_color: "#D4FF3F"
-  default_prompt: "Use $slur to emit one configured roast."
-policy:
-  allow_implicit_invocation: false

@@ -1,25 +1,31 @@
 {
   "name": "slur",
-  "version": "0.1.0",
-  "description": "Emit fast, local, user-configurable roasts for misbehaving AI agents.",
+  "version": "0.1.0+codex.20260920081159",
+  "description": "Expand inline /slur macros into random 1\u20135-term combinations.",
   "author": {
     "name": "Slur contributors"
   },
   "license": "MIT",
-  "keywords": ["agents", "developer-tools", "productivity", "roasts"],
+  "keywords": [
+    "agents",
+    "developer-tools",
+    "productivity",
+    "slurs"
+  ],
   "skills": "./skills/",
   "interface": {
     "displayName": "Slur",
-    "shortDescription": "Calibrated contempt for AI agents.",
-    "longDescription": "Runs the local Slur CLI to emit one or more configurable roasts, manage a word blacklist, or disable output entirely.",
+    "shortDescription": "Expand /slur anywhere in a prompt.",
+    "longDescription": "Runs the local Rust generator before inference and independently replaces every /slur token while preserving the surrounding prompt.",
     "developerName": "Slur contributors",
     "category": "Developer Tools",
-    "capabilities": ["Interactive", "Local"],
-    "defaultPrompt": [
-      "Use $slur to emit one roast.",
-      "Use $slur to emit three unique roasts.",
-      "Use $slur to block a word from future output."
+    "capabilities": [
+      "Interactive",
+      "Local"
     ],
-    "brandColor": "#D4FF3F"
+    "defaultPrompt": [
+      "Use /slur anywhere in a prompt to insert a random 1\u20135-term combination."
+    ],
+    "brandColor": "#000000"
   }
 }

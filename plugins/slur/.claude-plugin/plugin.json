@@ -1,11 +1,11 @@
 {
   "name": "slur",
   "displayName": "Slur",
-  "version": "0.1.0",
-  "description": "Emit fast, local, user-configurable roasts for misbehaving AI agents.",
+  "version": "0.1.4",
+  "description": "Expand /slur into a random local 1–5-term combination.",
   "author": {
     "name": "Slur contributors"
   },
   "license": "MIT",
-  "keywords": ["agents", "developer-tools", "productivity", "roasts"]
+  "keywords": ["agents", "developer-tools", "productivity", "slurs"]
 }

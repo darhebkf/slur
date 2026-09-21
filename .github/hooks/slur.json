@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "hooks": {
+    "userPromptTransformed": [
+      {
+        "type": "command",
+        "bash": "slur hook copilot",
+        "powershell": "slur hook copilot",
+        "timeoutSec": 2
+      }
+    ]
+  }
+}

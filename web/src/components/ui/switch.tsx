@@ -1,6 +1,7 @@
 import { Switch as SwitchPrimitive } from "@base-ui/react/switch"
 import { cn } from "cn"
 
+/** Renders an accessible two-state switch. */
 function Switch({
   className,
   size = "default",

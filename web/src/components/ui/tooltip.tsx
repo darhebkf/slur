@@ -3,6 +3,7 @@
 import { Tooltip as TooltipPrimitive } from "@base-ui/react/tooltip"
 import { cn } from "cn"
 
+/** Provides shared timing behavior for nested tooltips. */
 function TooltipProvider({
   delay = 0,
   ...props
@@ -16,14 +17,17 @@ function TooltipProvider({
   )
 }
 
+/** Provides state for one tooltip. */
 function Tooltip({ ...props }: TooltipPrimitive.Root.Props) {
   return <TooltipPrimitive.Root data-slot="tooltip" {...props} />
 }
 
+/** Renders the element that opens a tooltip. */
 function TooltipTrigger({ ...props }: TooltipPrimitive.Trigger.Props) {
   return <TooltipPrimitive.Trigger data-slot="tooltip-trigger" {...props} />
 }
 
+/** Renders tooltip content in a positioned portal. */
 function TooltipContent({
   className,
   side = "top",
