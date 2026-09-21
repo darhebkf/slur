@@ -25,7 +25,11 @@ jobs:
         run: |
           package_version="$(sed -n 's/^version = "\([^"]*\)"/\1/p' Cargo.toml | head -n 1)"
           test -n "$package_version"
-          test "$GITHUB_REF_NAME" = "v$package_version"
+          expected_tag="v$package_version"
+          if [[ "$package_version" == *.0 ]]; then
+            expected_tag="v${package_version%.0}"
+          fi
+          test "$GITHUB_REF_NAME" = "$expected_tag"
 
   build:
     name: Build ${{ matrix.asset }}

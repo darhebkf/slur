@@ -4,6 +4,7 @@ param(
 
 $ErrorActionPreference = "Stop"
 $SlurRepo = if ($env:SLUR_GITHUB_REPO) { $env:SLUR_GITHUB_REPO } else { "darhebkf/slur" }
+$SlurVersion = if ($env:SLUR_VERSION) { $env:SLUR_VERSION } else { "latest" }
 $LocalBin = Join-Path $HOME ".local/bin"
 $CargoBin = Join-Path $HOME ".cargo/bin"
 $PathEntries = $env:PATH -split ";"
@@ -21,9 +22,13 @@ else {
   $InstallRoot = Join-Path $HOME ".local"
 }
 
-$Architecture = if ($env:PROCESSOR_ARCHITECTURE -eq "ARM64") { "arm64" } else { "x64" }
-$Asset = "slur-windows-$Architecture.zip"
-$ReleaseUrl = "https://github.com/$SlurRepo/releases/latest/download"
+$Asset = "slur-windows-x64.zip"
+$ReleaseUrl = if ($SlurVersion -eq "latest") {
+  "https://github.com/$SlurRepo/releases/latest/download"
+}
+else {
+  "https://github.com/$SlurRepo/releases/download/$SlurVersion"
+}
 $TemporaryRoot = Join-Path ([System.IO.Path]::GetTempPath()) ("slur-" + [System.Guid]::NewGuid().ToString("N"))
 $Archive = Join-Path $TemporaryRoot $Asset
 $ChecksumFile = "$Archive.sha256"

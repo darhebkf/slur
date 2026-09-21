@@ -2,6 +2,7 @@
 set -euo pipefail
 
 slur_repo="${SLUR_GITHUB_REPO:-darhebkf/slur}"
+slur_version="${SLUR_VERSION:-latest}"
 temporary_root=""
 targets=("$@")
 
@@ -95,10 +96,14 @@ install_from_release() {
   temporary_root="$(mktemp -d "${TMPDIR:-/tmp}/slur.XXXXXX")"
   archive="${temporary_root}/${asset}"
   checksum="${archive}.sha256"
-  release_url="https://github.com/${slur_repo}/releases/latest/download"
+  if [[ "$slur_version" == latest ]]; then
+    release_url="https://github.com/${slur_repo}/releases/latest/download"
+  else
+    release_url="https://github.com/${slur_repo}/releases/download/${slur_version}"
+  fi
 
-  curl --proto '=https' --tlsv1.2 -fsSL "${release_url}/${asset}" -o "$archive"
-  curl --proto '=https' --tlsv1.2 -fsSL "${release_url}/${asset}.sha256" -o "$checksum"
+  curl --proto '=https' --tlsv1.2 --retry 3 -fsSL "${release_url}/${asset}" -o "$archive"
+  curl --proto '=https' --tlsv1.2 --retry 3 -fsSL "${release_url}/${asset}.sha256" -o "$checksum"
   verify_checksum "$archive" "$checksum"
   tar -xzf "$archive" -C "$temporary_root"
   mkdir -p "${install_root}/bin"

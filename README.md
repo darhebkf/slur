@@ -32,6 +32,8 @@ curl -fsSL https://raw.githubusercontent.com/darhebkf/slur/main/scripts/install.
 
 Supported names are `claude`, `codex`, `opencode`, `gemini`, `copilot`, `cursor`, `cline`, and `windsurf`. Pass `all` to install every adapter.
 
+Set `SLUR_VERSION` to a release tag, such as `v0.9`, when you need to install a specific version instead of the latest release.
+
 ## Use the CLI
 
 ```sh
