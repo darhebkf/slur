@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://ruls.dev/</loc>
-  </url>
+  <url><loc>https://ruls.dev/</loc><lastmod>2026-09-22</lastmod></url>
+  <url><loc>https://ruls.dev/claude-code/</loc><lastmod>2026-09-22</lastmod></url>
+  <url><loc>https://ruls.dev/codex/</loc><lastmod>2026-09-22</lastmod></url>
+  <url><loc>https://ruls.dev/opencode/</loc><lastmod>2026-09-22</lastmod></url>
+  <url><loc>https://ruls.dev/gemini-cli/</loc><lastmod>2026-09-22</lastmod></url>
+  <url><loc>https://ruls.dev/github-copilot-cli/</loc><lastmod>2026-09-22</lastmod></url>
+  <url><loc>https://ruls.dev/cursor/</loc><lastmod>2026-09-22</lastmod></url>
+  <url><loc>https://ruls.dev/cline/</loc><lastmod>2026-09-22</lastmod></url>
+  <url><loc>https://ruls.dev/windsurf/</loc><lastmod>2026-09-22</lastmod></url>
 </urlset>

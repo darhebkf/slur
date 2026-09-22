@@ -190,6 +190,13 @@
   text-wrap: balance;
 }
 
+.integration-links a {
+  color: inherit;
+  text-decoration-color: var(--muted-ink);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.12em;
+}
+
 .kinetic {
   position: relative;
   height: calc(100svh + var(--rail-distance));

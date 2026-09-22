@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && bun run build:client && bun run build:server && bun run scripts/prerender.ts",
+    "build": "tsc -b && bun run build:client && bun run build:server && bun run scripts/prerender.ts && bun run scripts/validate-seo.ts",
     "build:client": "vite build",
     "build:server": "vite build --ssr src/entry-server.tsx --outDir .ssr",
     "lint": "oxlint",

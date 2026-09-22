@@ -1,0 +1,181 @@
+.guide-shell {
+  min-height: 100svh;
+  background: var(--paper);
+  color: var(--ink);
+}
+
+.guide-header {
+  min-height: 4rem;
+  padding-inline: clamp(1.25rem, 3vw, 3rem);
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.guide-header a,
+.guide-related a {
+  color: inherit;
+  text-decoration-color: var(--muted-ink);
+  text-underline-offset: 0.18em;
+}
+
+.guide-header a:first-child {
+  font-weight: 650;
+  letter-spacing: -0.04em;
+  text-decoration: none;
+}
+
+.guide-shell article {
+  max-width: 100rem;
+  margin: 0 auto;
+}
+
+.guide-hero,
+.guide-section,
+.guide-related {
+  padding: clamp(5rem, 10vw, 10rem) clamp(1.25rem, 3vw, 3rem);
+}
+
+.guide-hero {
+  min-height: min(48rem, calc(100svh - 4rem));
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.guide-kicker {
+  margin: 0 0 2rem;
+  color: var(--muted-ink);
+  font-size: 0.875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.guide-hero h1 {
+  max-width: 12ch;
+  margin: 0;
+  font-size: clamp(4rem, 11vw, 11rem);
+  font-weight: 650;
+  letter-spacing: -0.085em;
+  line-height: 0.78;
+  text-wrap: balance;
+}
+
+.guide-lede,
+.guide-section > p {
+  max-width: 52rem;
+  margin: clamp(2.5rem, 5vw, 5rem) 0 0;
+  font-size: clamp(1.3rem, 2.4vw, 2.25rem);
+  letter-spacing: -0.04em;
+  line-height: 1.14;
+}
+
+.guide-section,
+.guide-related {
+  border-top: 1px solid var(--line);
+}
+
+.guide-section h2,
+.guide-related h2 {
+  max-width: 12ch;
+  margin: 0;
+  font-size: clamp(3rem, 8vw, 8rem);
+  font-weight: 650;
+  letter-spacing: -0.075em;
+  line-height: 0.82;
+}
+
+.guide-facts,
+.guide-answers,
+.guide-steps {
+  margin: clamp(3.5rem, 7vw, 7rem) 0 0;
+  padding: 0;
+  border-top: 1px solid var(--line);
+}
+
+.guide-facts > div,
+.guide-answers > div,
+.guide-steps > li {
+  min-height: 6rem;
+  padding: 1.5rem 0;
+  border-bottom: 1px solid var(--line);
+  display: grid;
+  grid-template-columns: minmax(9rem, 1fr) minmax(0, 2fr);
+  align-items: start;
+  gap: clamp(1.5rem, 4vw, 5rem);
+}
+
+.guide-facts dt,
+.guide-answers dt,
+.guide-steps > li > span {
+  color: var(--muted-ink);
+  font-size: 0.875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.guide-facts dd,
+.guide-answers dd,
+.guide-steps p {
+  margin: 0;
+  font-size: clamp(1.15rem, 2vw, 1.75rem);
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+}
+
+.guide-steps {
+  list-style: none;
+}
+
+.guide-steps pre {
+  min-width: 0;
+  margin: 0 0 0.75rem;
+  overflow-x: auto;
+}
+
+.guide-steps code,
+.guide-example code {
+  font-size: clamp(0.82rem, 1.25vw, 1.1rem);
+  white-space: pre;
+}
+
+.guide-example {
+  margin: clamp(3.5rem, 7vw, 7rem) 0 0;
+  padding: clamp(1.5rem, 3vw, 3rem);
+  border: 1px solid var(--line);
+  overflow-x: auto;
+}
+
+.guide-related > div {
+  margin-top: clamp(3.5rem, 7vw, 7rem);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.guide-related a {
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--line);
+  text-decoration: none;
+}
+
+.guide-related a:hover,
+.guide-related a:focus-visible {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.guide-shell footer {
+  background: var(--inverse-paper);
+  color: var(--inverse-muted);
+}
+
+@media (max-width: 700px) {
+  .guide-facts > div,
+  .guide-answers > div,
+  .guide-steps > li {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+}

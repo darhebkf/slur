@@ -22,6 +22,7 @@ import {
   createGeneratedContent,
   type GeneratedContent,
 } from '@/generated-content'
+import { integrations } from '@/seo-pages'
 import './App.css'
 
 const GITHUB_URL = 'https://github.com/darhebkf/slur'
@@ -166,7 +167,9 @@ function App({ initialContent }: AppProps = {}) {
     <div className="site-shell">
       <main>
         <section className="hero" ref={heroRef} aria-labelledby="site-title">
-          <h1 className="sr-only" id="site-title">Slur</h1>
+          <h1 className="sr-only" id="site-title">
+            Slur generator for Claude Code, Codex, and coding agents
+          </h1>
           <motion.span
             className="watermark"
             aria-hidden="true"
@@ -210,15 +213,20 @@ function App({ initialContent }: AppProps = {}) {
             <div className="definition-row">
               <dt>what</dt>
               <dd>
-                Slur is a local prompt expander for coding agents. It replaces every
-                standalone <code>/slur</code> token with a random one-to-five-term combination.
+                Slur is a local insult and slur generator for coding agents. It replaces
+                every standalone <code>/slur</code> token with a random one-to-five-term
+                combination.
               </dd>
             </div>
             <div className="definition-row">
               <dt>where</dt>
-              <dd>
-                Claude Code, Codex, OpenCode, Gemini CLI, GitHub Copilot CLI, Cursor,
-                Cline, and Windsurf.
+              <dd className="integration-links">
+                {integrations.map(({ slug, harness }, index) => (
+                  <span key={slug}>
+                    <a href={`/${slug}/`}>{harness}</a>
+                    {index < integrations.length - 1 ? ', ' : '.'}
+                  </span>
+                ))}
               </dd>
             </div>
             <div className="definition-row">

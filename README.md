@@ -1,6 +1,6 @@
 # Slur
 
-Slur is a local text generator for coding agents. It produces random combinations of one to five terms and can expand each standalone `/slur` token in a prompt.
+Slur is a local insult and slur generator for coding agents. It produces random combinations of one to five terms and expands each standalone `/slur` token in a prompt.
 
 Website: [ruls.dev](https://ruls.dev/)
 
@@ -71,14 +71,14 @@ Harnesses expose different prompt-extension APIs. Slur uses the closest supporte
 
 | Harness | Behavior |
 | --- | --- |
-| Claude Code | Adds the expanded prompt to model context before inference. The submitted text remains visible. |
-| Codex | Adds the expanded prompt to model context before inference. The submitted text remains visible. |
-| OpenCode | Rewrites the prompt before submission. |
-| Gemini CLI | Expands the command output before submission and might request command approval. |
-| GitHub Copilot CLI | Replaces the model-facing prompt. The submitted text remains visible. |
-| Cursor | Runs the generator through a command. |
-| Cline | Runs the generator through a skill. |
-| Windsurf | Runs the generator through a workflow. |
+| [Claude Code](https://ruls.dev/claude-code/) | Adds the expanded prompt to model context before inference. The submitted text remains visible. |
+| [Codex](https://ruls.dev/codex/) | Adds the expanded prompt to model context before inference. The submitted text remains visible. |
+| [OpenCode](https://ruls.dev/opencode/) | Rewrites the prompt before submission. |
+| [Gemini CLI](https://ruls.dev/gemini-cli/) | Expands the command output before submission and might request command approval. |
+| [GitHub Copilot CLI](https://ruls.dev/github-copilot-cli/) | Replaces the model-facing prompt. The submitted text remains visible. |
+| [Cursor](https://ruls.dev/cursor/) | Runs the generator through a command. |
+| [Cline](https://ruls.dev/cline/) | Runs the generator through a skill. |
+| [Windsurf](https://ruls.dev/windsurf/) | Runs the generator through a workflow. |
 
 In Codex, you can also invoke the native skill as `$slur:slur`. Start a new task after you install an adapter so the harness can load it.
 
