@@ -7,6 +7,8 @@ export interface IntegrationPageData {
   target: string
   adapter: string
   behavior: string
+  installedAt: string
+  invocation: string
   restart: string
   searchIntent: string
   title: string
@@ -32,6 +34,8 @@ export const integrations: IntegrationPageData[] = [
     adapter: 'Claude Code plugin with a local prompt hook and Slur skill',
     behavior:
       'The hook adds the expanded prompt to model context before inference. Claude Code still shows the submitted /slur text in the conversation.',
+    installedAt: '~/.local/share/slur/claude-marketplace',
+    invocation: '/slur anywhere in a prompt',
     restart: 'Restart Claude Code after setup so it loads the plugin.',
     searchIntent: 'Claude Code custom command and plugin',
     title: 'Slur Generator for Claude Code | /slur Plugin',
@@ -45,6 +49,8 @@ export const integrations: IntegrationPageData[] = [
     adapter: 'Codex plugin with a local prompt hook and native Slur skill',
     behavior:
       'The hook adds the expanded prompt to model context before inference. Codex still shows the submitted /slur text, and the skill is also available as $slur:slur.',
+    installedAt: '~/.local/share/slur/codex-marketplace',
+    invocation: '/slur or $slur:slur',
     restart: 'Start a new Codex task after setup so it loads the plugin.',
     searchIntent: 'Codex custom skill and slash command',
     title: 'Slur Generator for Codex | /slur Skill & Plugin',
@@ -58,6 +64,8 @@ export const integrations: IntegrationPageData[] = [
     adapter: 'OpenCode custom command and JavaScript prompt plugin',
     behavior:
       'The plugin rewrites every standalone /slur token before OpenCode submits the prompt, so the model receives the expanded text in place.',
+    installedAt: '~/.config/opencode/commands/slur.md and plugin/slur.js',
+    invocation: '/slur anywhere in a prompt',
     restart: 'Restart OpenCode after setup so it loads the command and plugin.',
     searchIntent: 'OpenCode custom slash command and plugin',
     title: 'Slur Generator for OpenCode | Custom /slur Command',
@@ -71,6 +79,8 @@ export const integrations: IntegrationPageData[] = [
     adapter: 'Gemini CLI custom TOML command',
     behavior:
       'The custom command runs the local Slur binary and expands its output before submission. Gemini CLI may ask you to approve the command.',
+    installedAt: '~/.gemini/commands/slur.toml',
+    invocation: '/slur',
     restart: 'Restart Gemini CLI after setup so it discovers the command.',
     searchIntent: 'Gemini CLI custom slash command',
     title: 'Slur Generator for Gemini CLI | Custom /slur Command',
@@ -84,6 +94,8 @@ export const integrations: IntegrationPageData[] = [
     adapter: 'GitHub Copilot CLI custom skill and prompt hook',
     behavior:
       'The prompt hook replaces the model-facing prompt with the expanded text. Copilot CLI may still show the submitted /slur text in the conversation.',
+    installedAt: '~/.copilot/skills/slur and ~/.copilot/hooks/slur.json',
+    invocation: '/slur anywhere in a prompt',
     restart: 'Restart GitHub Copilot CLI after setup so it loads the skill and hook.',
     searchIntent: 'GitHub Copilot CLI custom skill',
     title: 'Slur Generator for GitHub Copilot CLI | /slur Skill',
@@ -97,6 +109,8 @@ export const integrations: IntegrationPageData[] = [
     adapter: 'local Cursor plugin with a custom command',
     behavior:
       'The Cursor command runs the local Slur binary once and treats its output as the replacement request.',
+    installedAt: '~/.cursor/plugins/local/slur',
+    invocation: '/slur',
     restart: 'Restart Cursor after setup so it discovers the local plugin.',
     searchIntent: 'Cursor custom slash command and plugin',
     title: 'Slur Generator for Cursor | Custom /slur Command',
@@ -110,6 +124,8 @@ export const integrations: IntegrationPageData[] = [
     adapter: 'Cline custom skill',
     behavior:
       'The Cline skill runs the local Slur binary once and treats its single output line as the replacement request.',
+    installedAt: '~/.cline/skills/slur/SKILL.md',
+    invocation: '/slur',
     restart: 'Restart the editor hosting Cline after setup so it loads the skill.',
     searchIntent: 'Cline custom skill and slash command',
     title: 'Slur Generator for Cline | Custom /slur Skill',
@@ -123,6 +139,8 @@ export const integrations: IntegrationPageData[] = [
     adapter: 'Windsurf global workflow',
     behavior:
       'The workflow runs the local Slur binary once and treats its output as the replacement request.',
+    installedAt: '~/.codeium/windsurf/global_workflows/slur.md',
+    invocation: '/slur',
     restart: 'Restart Windsurf after setup so it discovers the global workflow.',
     searchIntent: 'Windsurf workflow and custom slash command',
     title: 'Slur Generator for Windsurf | /slur Workflow',

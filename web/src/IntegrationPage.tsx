@@ -44,6 +44,14 @@ export default function IntegrationPage({ integration }: IntegrationPageProps) {
                 <dd>local Rust binary</dd>
               </div>
               <div>
+                <dt>default Unix path</dt>
+                <dd><code>{integration.installedAt}</code></dd>
+              </div>
+              <div>
+                <dt>invoke</dt>
+                <dd><code>{integration.invocation}</code></dd>
+              </div>
+              <div>
                 <dt>network</dt>
                 <dd>none while generating</dd>
               </div>
